@@ -177,7 +177,7 @@ cython_debug/
 # ========================================
 
 # Datos crudos y procesados
-data/raw/*.csv
+#data/raw/*.csv
 data/raw/*.json
 data/raw/*.xlsx
 data/raw/*.parquet
