@@ -36,7 +36,7 @@ else:
 # ==================================================
 # Principal interfaz
 # ==================================================
-st.title("🤖 Chatbot for sustainable energy planning in La Guajira")
+st.title("🤖 AI-Based Wind Forecasting System for La Guajira")
 st.write(f"Using **{provider} - {model_name}**")
 
 # Initialize history
