@@ -38,7 +38,7 @@ __pycache__/
 *$py.class
 
 # CSV files
-*.csv
+#*.csv
 
 # C extensions
 *.so
@@ -177,7 +177,7 @@ cython_debug/
 # ========================================
 
 # Datos crudos y procesados
-data/raw/*.csv
+#data/raw/*.csv
 data/raw/*.json
 data/raw/*.xlsx
 data/raw/*.parquet
@@ -507,3 +507,23 @@ tmp/
 !requirements.txt
 !README.md
 !LICENSE 
+
+# ========================================
+# DVC
+# ========================================
+.dvc/
+.dvcignore
+
+# ========================================
+# Models
+# ========================================
+*.keras
+*.joblib
+*.pkl
+*.h5
+*.hdf5
+*.onnx
+*.pb
+*.pt
+*.pth
+*.pkl.gz

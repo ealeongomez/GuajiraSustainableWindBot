@@ -10,6 +10,7 @@ Wind forecasting system for La Guajira using artificial intelligence and a conve
 ```bash
 GuajiraSustainableWindBot/
 │── docs/       # Technical documentation, manuals, and user guides
+│── examples/   # Example implementations and use cases
 │── infra/      # Infrastructure scripts (deployment, Docker, CI/CD, AWS/Azure configs)
 │── models/     # Deep learning and explainability models (trained and under development)
 │── src/        # Main source code of the ChatBot
