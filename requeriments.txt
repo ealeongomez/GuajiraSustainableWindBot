@@ -109,3 +109,5 @@ apscheduler>=3.10.0
 
 # Additional utilities
 python-multipart>=0.0.5
+# MongoDB
+pymongo>=4.5.0
