@@ -5,8 +5,7 @@ Telegram Bot Handlers
 from telegram import Update
 from telegram.ext import ContextTypes
 from langsmith import traceable
-from .utils import get_user_chain
-from .config import USER_MEMORIES
+from .utils import get_user_chain, clear_user_memory
 from .mongodb_manager import get_mongodb_manager
 
 
@@ -61,11 +60,14 @@ async def clear_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.effective_user.id
     print(f"{user_id}")
     
-    if user_id in USER_MEMORIES:
-        USER_MEMORIES[user_id].memory.clear()
-        await update.message.reply_text("✅ Historial limpiado. ¡Empecemos de nuevo!")
-    else:
-        await update.message.reply_text("No hay historial para limpiar.")
+    # Clear in-memory cache (next message will reload from MongoDB)
+    clear_user_memory(user_id)
+    
+    await update.message.reply_text(
+        "✅ Historial en memoria limpiado.\n"
+        "💾 Las conversaciones permanecen guardadas en la base de datos.\n"
+        "Al enviar tu próximo mensaje, se cargarán las últimas 10 conversaciones."
+    )
 
 
 @traceable(name="telegram_message_handler", tags=["telegram", "user_message"])
@@ -100,10 +102,10 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         # Send response
         await update.message.reply_text(bot_reply)
         
-        # Save conversation to MongoDB
+        # Save conversation to MongoDB with unique ID
         mongodb = get_mongodb_manager()
         if mongodb:
-            mongodb.save_conversation(
+            conversation_id = mongodb.save_conversation(
                 user_id=user_id,
                 user_name=user_name,
                 user_message=user_message,
@@ -113,6 +115,8 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     "chat_id": update.message.chat_id
                 }
             )
+            if conversation_id:
+                print(f"💾 {conversation_id}")
 
     except Exception as e:
         print(f"{user_id}")

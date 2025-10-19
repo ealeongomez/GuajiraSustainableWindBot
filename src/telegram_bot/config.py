@@ -62,6 +62,11 @@ PROMPT = PromptTemplate(
     template=prompt_template
 )
 
-# Dictionary to store user-specific memories
+# Dictionary to store user-specific memories (in-memory cache)
+# Histories are loaded from MongoDB on first access
 USER_MEMORIES = {}
+
+# MongoDB Configuration
+MONGODB_URI = os.getenv("MONGODB_URI")
+MONGODB_DATABASE = os.getenv("MONGODB_DATABASE")
 
