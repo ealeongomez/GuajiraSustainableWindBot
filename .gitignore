@@ -208,6 +208,9 @@ results/
 outputs/
 exports/
 
+# Gráficas generadas (ignorar para no subir al repo)
+test/chatbot/output/*.png
+
 # ========================================
 # NOTEBOOKS Y ANÁLISIS
 # ========================================
