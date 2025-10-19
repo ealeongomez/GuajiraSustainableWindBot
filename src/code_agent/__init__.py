@@ -23,6 +23,7 @@ from .supervisor import SupervisorAgent
 from .municipality_agent import CodeMunicipalityAgent
 from .general_agent import GeneralAgent
 from .system import CodeMultiAgentSystem
+from .security import SecurityValidator, validate_and_sanitize
 
 __all__ = [
     'DataManager',
@@ -30,7 +31,9 @@ __all__ = [
     'SupervisorAgent',
     'CodeMunicipalityAgent',
     'GeneralAgent',
-    'CodeMultiAgentSystem'
+    'CodeMultiAgentSystem',
+    'SecurityValidator',
+    'validate_and_sanitize'
 ]
 
 __version__ = '1.0.0'

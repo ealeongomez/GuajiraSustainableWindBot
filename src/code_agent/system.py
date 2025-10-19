@@ -10,19 +10,25 @@ from .data_manager import DataManager
 from .supervisor import SupervisorAgent
 from .municipality_agent import CodeMunicipalityAgent
 from .general_agent import GeneralAgent
+from .security import SecurityValidator
 
 
 class CodeMultiAgentSystem:
     """Orchestrates the supervisor and code-enabled agents."""
     
-    def __init__(self, verbose: bool = True):
+    def __init__(self, verbose: bool = True, enable_security: bool = True):
         """
         Initialize Multi-Agent System.
         
         Args:
             verbose: Whether to print initialization messages
+            enable_security: Whether to enable security validation
         """
         self.verbose = verbose
+        self.enable_security = enable_security
+        
+        # Initialize security validator
+        self.security_validator = SecurityValidator(verbose=verbose)
         
         # Initialize data manager
         self.data_manager = DataManager(verbose=verbose)
@@ -66,6 +72,12 @@ class CodeMultiAgentSystem:
         """
         if verbose is None:
             verbose = self.verbose
+        
+        # Step 0: Security validation
+        if self.enable_security:
+            is_valid, reason = self.security_validator.validate_query(query)
+            if not is_valid:
+                return f"🚫 {reason}\n\n💡 Recuerda: Solo puedo ayudarte con información sobre predicción de viento y energía en los municipios de La Guajira, Colombia."
         
         # Step 1: Supervisor routes the query
         if verbose:

@@ -6,6 +6,7 @@ import traceback
 from colorama import Fore, Style
 
 from .safe_repl import SafePythonREPL
+from .security import SecurityValidator
 
 
 class CodeMunicipalityAgent:
@@ -24,6 +25,7 @@ class CodeMunicipalityAgent:
         self.llm = llm
         self.data_manager = data_manager
         self.python_repl = SafePythonREPL(data_manager)
+        self.security_validator = SecurityValidator(verbose=False)
         
     def answer(self, query: str) -> str:
         """
@@ -112,11 +114,17 @@ Genera SOLO el código Python (sin imports, sin explicaciones, solo el código e
                 code = code.split("```")[0]
             code = code.strip()
             
+            # Sanitize code for security
+            sanitized_code = self.security_validator.sanitize_code(code)
+            
+            if not sanitized_code:
+                return f"⚠️ El código generado contiene operaciones no permitidas por seguridad. Por favor, reformula tu pregunta de manera más específica sobre {municipality_display}."
+            
             # Execute code
             print(f"{Fore.CYAN}🐍 Ejecutando código:{Style.RESET_ALL}")
-            print(f"{Fore.YELLOW}{code}{Style.RESET_ALL}\n")
+            print(f"{Fore.YELLOW}{sanitized_code}{Style.RESET_ALL}\n")
             
-            result = self.python_repl.run(code)
+            result = self.python_repl.run(sanitized_code)
             
             # Format result conversationally
             format_prompt = f"""Basado en estos resultados de análisis de datos para {municipality_display}:
