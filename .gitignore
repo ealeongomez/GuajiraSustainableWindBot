@@ -1,6 +1,8 @@
 # ========================================
 # GUAJIRA WIND FORECAST - .gitignore
 # ========================================
+.cursorrules
+.gitignore
 
 # ========================================
 # VARIABLES DE ENTORNO Y CONFIGURACIÓN
